@@ -1,0 +1,85 @@
+semaphore s1 = 1;
+semaphore s2 = 1;
+semaphore s3 = 0;
+
+int estudiantesEnHabitacion = 0;
+int i = 1;
+int k;
+
+void estudiante(int id){
+	wait(s1);
+	estudiantesEnHabitacion++;
+	cout << "El estudiante" << id << " entra a la Habitacion" << endl;
+	cout << "Habitacion: " << estudiantesEnHabitacion << " estudiantes" << endl << endl;
+	signal(s1);
+
+	wait(s3);
+	estudiantesEnHabitacion--;
+	cout << "El estudiante" << id << " sale de la habitacion" << endl;
+	cout << "Habitacion: " << estudiantesEnHabitacion << " estudiantes" << endl << endl;
+	if ((i == 0) && (estudiantesEnHabitacion == 0)){
+		cout << "El administrador sale de la habitacion" << endl;
+		exit(0);
+	}
+	signal(s3);
+}
+
+void adminAlbergue(){
+	while(i){
+		if(estudiantesEnHabitacion == 0){
+			wait(s2);
+			cout << "El administrador realiza una busqueda en la habitacion"<< endl;
+			cout << "El administrador sale de la habitacion" << endl << endl;
+			signal(s2);
+		}
+		if(estudiantesEnHabitacion > 10){
+			wait(s1);
+			signal(s3);
+			cout << "El administrador termina la fiesta en la habitacion" << endl << endl;
+			i = 0;
+		}
+	}
+	
+}
+
+void main(){
+	cobegin{
+		adminAlbergue();
+		estudiante(1);
+		estudiante(2);
+		estudiante(3);
+		estudiante(4);
+		estudiante(5);
+		estudiante(6);
+		estudiante(7);
+		estudiante(8);
+		estudiante(9);
+		estudiante(10);
+		estudiante(11);
+		estudiante(12);
+		estudiante(13);
+		estudiante(14);
+		estudiante(15);
+		estudiante(16);
+		estudiante(17);
+		estudiante(18);
+		estudiante(19);
+		estudiante(20);
+		estudiante(21);
+		estudiante(22);
+		estudiante(23);
+		estudiante(24);
+		estudiante(25);
+		estudiante(26);
+		estudiante(27);
+		estudiante(28);
+		estudiante(29);
+		estudiante(30);
+		estudiante(31);
+		estudiante(32);
+		estudiante(33);
+		estudiante(34);
+		estudiante(35);
+		estudiante(36);
+	}
+}

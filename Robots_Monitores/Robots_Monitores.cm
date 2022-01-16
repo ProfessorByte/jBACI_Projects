@@ -1,0 +1,100 @@
+/**Integrantes TSO-Grupo 1
+Gomer Rafael Claure Barrios
+Karis Luisa Cruz Mora
+Gilda  Silvestre Lopez
+Ronald Teran Paco
+*/
+monitor Fabrica_P6{
+
+  int PiezasA;
+  int PiezasB;
+  int PiezasC;
+  int Ca;
+  int Cb;
+  int Cc;
+  condition fabricar;
+
+void RobotA(int cod){
+   if(Ca==2){
+    waitc(fabricar);
+   }else{
+    if(PiezasA<2){
+     Ca=2;
+     PiezasA++;
+     cout<<"Robot A"<<cod<<" :fabricara una pieza de tipo A"<<cod<<endl;
+     cout<<"Robot A"<<cod<<" añade su pieza a la plataforma"<<endl;
+    }
+     else{
+      cout<<"Robot A"<<cod<< ",intenta fabricar,no puede ya existen suficientes piezas de tipo A"<<endl;
+     }
+    Ca=0;
+   signalc(fabricar);
+   }
+}
+
+void RobotB(int cod){
+   if(Cb==1){
+    waitc(fabricar);
+   }else{
+    if(PiezasB<1){
+     Cb=1;
+     PiezasB++;
+     cout<<"Robot B"<<cod<<" :fabricara una pieza de tipo B"<<cod<<endl;
+     cout<<"Robot B"<<cod<<" añade su pieza a la plataforma"<<endl;
+    }
+     else{
+      cout<<"Robot B"<<cod<< ",intenta fabricar,no puede ya existen suficientes piezas de tipo B"<<endl;
+     }
+   Cb=0;
+   signalc(fabricar);
+   }
+}
+void RobotC(int cod){
+if(Cc==1){
+   waitc(fabricar);
+  }
+    if((PiezasA>=2)&&(PiezasB>=1)){
+     Cc=1;
+     PiezasC++;
+     cout<<"Robot C"<<cod<<" :fabricara una pieza de tipo C"<<endl;
+     cout<<"Plataforma vacia"<<endl;
+     PiezasA=0;
+     PiezasB=0;
+     }else{
+      cout<<"Robot C"<<cod<<" no puede producir piezas le faltan piezas"<<endl;
+     }
+   Cc=0;
+    signalc(fabricar);
+  }
+
+init{
+    PiezasA=0;
+    PiezasB=0;
+    PiezasC=0;
+    Ca = 0;
+    Cb = 0;
+    Cc=0;
+  }   
+}
+void robotA(int cod){
+  while(1){
+   RobotA(cod);
+  }
+}
+void robotB(int cod){
+  while(1){
+   RobotB(cod);
+  }
+ }
+void robotC(int cod){
+  while(1){
+   RobotC(cod);
+  }
+}
+void main(){
+  cout<<"--------------------------------F-A-B-R-I-C-A------------------------------"<<endl;
+  cobegin{
+  robotA(1);robotB(1);robotC(1);
+  robotA(2);robotB(2);robotC(2);
+  }
+}

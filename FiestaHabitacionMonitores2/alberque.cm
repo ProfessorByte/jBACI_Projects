@@ -1,0 +1,94 @@
+ monitor alberque{
+    int habitacion=0 ;
+   int ad;
+   int aux;
+   //int est=1;
+   int registro [30];  
+   int bandera=1;
+   const int A =1;
+   const int L =10;
+   condition revisar;
+
+  
+ void revisarAD(int ID){
+ if (habitacion == 0){
+             ad =ad+1;
+             cout << "el administrador entro ";
+             cout<< endl;
+             cout << "administrador buscando--nada ";
+             cout<< endl;
+             ad=ad-1;
+             }
+while(bandera ==1){
+
+       waitc(revisar);
+             //if(est==0){
+               //   break;
+                //    }
+              //est=0;
+             if (habitacion > L){
+                  ad =ad+1;
+                  cout << "el administrador entro --- contando ";
+                  cout<< endl;
+                  cout << "mas de " << L << " personas todos fuera";
+                  cout<< endl; 
+                  aux=habitacion;
+                  while(aux > 0){
+                           cout << "estudiante: " << registro[aux] << " salio de la habitacion";
+                           cout << endl;
+                           registro[aux] = 0;
+                           aux = aux-1;
+                           habitacion=habitacion-1;
+                           }
+                   cout << "el administrador salio";
+                   cout<< endl;
+                   bandera=0;
+                   }
+             }
+          
+}
+
+ void entrar(int ID){
+         if(ad != A){
+                
+                habitacion=habitacion+1;
+                registro[habitacion]=ID;
+                cout << " estudiante " << ID << " entro en la habitacion" ;
+                cout << endl; 
+                cout << " cantidad de personas: " << habitacion ;
+                cout << endl;
+                 //est=1;                
+                 signalc(revisar);
+                 
+                } 
+          else{
+              cout << "estudiante " << ID << " no entro , se fue" ;
+              cout << endl;
+                }                
+                      } 
+
+ init{
+      ad = 0;
+      aux=0;
+      }
+
+}
+void estudiante(int ID){
+
+     entrar(ID); 
+
+
+}
+void administrador(int ID){
+ 
+      revisarAD(ID);
+  
+}
+void main(){
+          cobegin{
+                 administrador(1);estudiante(1);estudiante(2);estudiante(3);estudiante(4);estudiante(5);
+                 estudiante(6);estudiante(7);estudiante(8);estudiante(9);
+                 estudiante(10);estudiante(11);estudiante(12);   
+                 }
+
+} 

@@ -1,0 +1,87 @@
+   monitor alberque{
+    int habitacion=0 ;
+   int ad;
+   int aux;
+   int adbo = 0;
+   int registro [30];  
+   const int A =1;
+   const int L =10;
+   condition entrarHab;
+
+ void iniciar(){
+   adbo = 1;
+}
+  
+ void revisarAD(){
+ if (habitacion == 0){
+             ad =ad+1;
+             cout << "el administrador entro ";
+             cout<< endl;
+             cout << "administrador buscando--nada ";
+             cout<< endl;
+             cout<<"el administrador salio";
+             cout<< endl;
+             ad=ad-1;
+             }
+if (habitacion > L){
+                  ad =ad+1;
+                  cout << "el administrador entro --- contando ";
+                  cout<< endl;
+                  cout << "mas de " << L << " personas todos fuera";
+                  cout<< endl; 
+                  aux=habitacion;
+                  while(aux > 0){
+                           cout << "estudiante: " << registro[aux] << " salio de la habitacion";
+                           cout << endl;
+                           registro[aux] = 0;
+                           aux = aux-1;
+                           habitacion=habitacion-1;
+                           }
+                   cout << "el administrador salio";
+                   cout<< endl;
+                     }
+          
+}
+
+ void entrar(int ID){
+         if(ad == A){
+                waitc(entrarHab);
+                      }
+            else{
+                habitacion=habitacion+1;
+                registro[habitacion]=ID;
+                cout << " estudiante " << ID << " entro en la habitacion" ;
+                cout << endl; 
+                cout << " cantidad de personas: " << habitacion ;
+                cout << endl;
+                if((habitacion > L) && (adbo == 1)){
+                         revisarAD();           }
+                          }
+              signalc(entrarHab);
+              ad=ad-1;                      
+                      } 
+
+ init{
+      ad = 0;
+      aux=0;
+      }
+
+}
+void estudiante(int ID){
+     entrar(ID); 
+
+
+}
+void administrador(){
+      revisarAD();
+      iniciar();
+  
+}
+void main(){
+          cobegin{
+                 administrador();estudiante(1);estudiante(2);estudiante(3);estudiante(4);estudiante(5);
+                 estudiante(6);estudiante(7);estudiante(8);estudiante(9);
+                 estudiante(10);estudiante(11);estudiante(12);   
+                 }
+
+} 

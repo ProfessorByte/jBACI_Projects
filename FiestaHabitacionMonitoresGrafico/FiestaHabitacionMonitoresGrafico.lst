@@ -1,0 +1,135 @@
+BACI System: C-- to PCODE Compiler, 12:29  18 Jul 2004
+Source file: E:\jBACI_Projects\FiestaHabitacionMonitoresGrafico\FiestaHabitacionMonitoresGrafico.cm  Mon May 25 03:59:25 2020
+ line  pc
+   1    0  #include "gdefs.cm"
+>   1    0  // Constants for jBACI graphcs
+>   2    0  const
+>   3    0     int RED   = 1; int BLACK   = 2; int BLUE  = 3; int YELLOW = 4;
+>   4    0     int GREEN = 5; int MAGENTA = 6; int WHITE = 7;
+>   5    0     int CIRCLE = 1; int LINE = 2; int RECTANGLE = 3; int TRIANGLE = 4;
+>   6    0  
+Returning to file E:\jBACI_Projects\FiestaHabitacionMonitoresGrafico\FiestaHabitacionMonitoresGrafico.cm
+   2    0     monitor alberque{
+   3    0      int habitacion=0 ;
+   4    0     int ad;
+   5    0     int aux;
+   6    0     int adbo = 0;
+   7    0     int registro [30];  
+   8    0     const int A =1;
+   9    0     const int L =5;
+  10    0     condition entrarHab;
+  11    0     const int tamy=80;
+  12    0     const int tamx=40;
+  13    0     int posx=25;
+  14    0     int posy=0;
+  15    0     const int sumax=10;
+  16    0     const int y = 190;
+  17    0   void iniciar(){
+  18    1     adbo = 1;
+  19    4  }
+  20    6    
+  21    6   void revisarAD(){
+  22    7   if (habitacion == 0){
+  23   11               ad =ad+1;
+  24   16               cout << "el administrador entro ";
+  25   17               cout<< endl;
+  26   18               create(0,RECTANGLE,GREEN,100,315,40,90);
+  27   26               create(1000,CIRCLE,GREEN,100,275,40,0);
+  28   34               cout << "administrador buscando--nada ";
+  29   35               create(0,RECTANGLE,YELLOW,100,315,40,90);
+  30   43               create(1000,CIRCLE,YELLOW,100,275,40,0);
+  31   51               cout<<"el administrador salio";
+  32   52               cout<< endl;
+  33   53               changecolor(0,BLUE);
+  34   56               changecolor(1000,BLUE);
+  35   59               ad=ad-1;
+  36   64               }
+  37   64  if (habitacion > L){
+  38   68                    ad =ad+1;
+  39   73                    create(0,RECTANGLE,GREEN,100,315,40,90);
+  40   81                    create(1000,CIRCLE,GREEN,100,275,40,0);
+  41   89                    cout << "el administrador entro --- contando ";
+  42   90                    cout<< endl;
+  43   91                    create(0,RECTANGLE,YELLOW,100,315,40,90);
+  44   99                    create(1000,CIRCLE,YELLOW,100,275,40,0);
+  45  107                    cout << "mas de " << L << " personas todos fuera";
+  46  111                    cout<< endl;
+  47  112                    create(0,RECTANGLE,RED,100,315,40,90);
+  48  120                    create(1000,CIRCLE,RED,100,275,40,0); 
+  49  128                    aux=habitacion;
+  50  131                    while(aux >= 0){
+  51  135                             cout << "estudiante: " << registro[aux] << " salio de la habitacion";
+  52  142                             cout << endl;
+  53  143                             changecolor(registro[aux],WHITE);
+  54  149                             changecolor(registro[aux]+1000,WHITE);
+  55  157                             registro[aux] = 0;
+  56  162                             aux = aux-1;
+  57  167                             }
+  58  168                     habitacion = 0;
+  59  171                     posx=25;
+  60  174                     cout << "el administrador salio";
+  61  175                    changecolor(0,BLUE);
+  62  178                    changecolor(1000,BLUE);
+  63  181                     cout<< endl;
+  64  182                     
+  65  182                       }
+  66  182            
+  67  182  }
+  68  184  
+  69  184   void entrar(int ID){
+  70  185           if(ad == A){
+  71  189                  waitc(entrarHab);
+  72  192                        }
+  73  192              else{
+  74  193                  habitacion=habitacion+1;
+  75  198                  registro[habitacion]=ID;
+  76  203                  cout << " estudiante " << ID << " entro en la habitacion" ;
+  77  207                  create(ID,RECTANGLE,BLACK,posx,y,tamx/2,tamy);
+  78  217                  create(1000+ID,CIRCLE,BLACK,posx,y-20,tamx/2,tamy);
+  79  231                  posx= posx + (tamx /2)+sumax;
+  80  240                  cout << endl; 
+  81  241                  cout << " cantidad de personas: " << habitacion ;
+  82  244                  cout << endl;
+  83  245                  if((habitacion > L) ){
+  84  249                           changecolor(ID,RED);
+  85  252                           changecolor(ID+1000,RED);
+  86  257                        if (adbo == 1){
+  87  261                           aux=random(5);
+  88  265                           if(aux==3){                         
+  89  269                           revisarAD();}
+  90  272                                      }           }
+  91  272                            }
+  92  272                signalc(entrarHab);
+  93  274                ad=ad-1;                      
+  94  279                        } 
+  95  281  
+  96  281   init{
+  97  293        ad = 0;
+  98  296        aux=0;
+  99  299        }
+ 100  300  
+ 101  300  }
+ 102  300  void estudiante(int ID){
+ 103  300       entrar(ID); 
+ 104  304  
+ 105  304  
+ 106  304  }
+ 107  305  void administrador(){
+ 108  305        iniciar();
+ 109  308        create(0,RECTANGLE,BLUE,25,40,40,90);
+ 110  316        create(1000,CIRCLE,BLUE,25,0,40,0);
+ 111  324        revisarAD();
+ 112  327        
+ 113  327    
+ 114  327  }
+ 115  328  void main(){
+ 116  329       create(100,RECTANGLE,MAGENTA,0,145,600,15);
+ 117  337       create(101,RECTANGLE,MAGENTA,585,145,15,480); 
+ 118  345          create(103,RECTANGLE,MAGENTA,0,145,15,480);               
+ 119  353            cobegin{
+ 120  354                   administrador();estudiante(1);estudiante(2);estudiante(3);estudiante(4);estudiante(5);
+ 121  377                   estudiante(6);estudiante(7);estudiante(8);estudiante(9);
+ 122  393                   estudiante(10);estudiante(11);estudiante(12);   
+ 123  405                   }
+ 124  406  
+ 125  406  } 

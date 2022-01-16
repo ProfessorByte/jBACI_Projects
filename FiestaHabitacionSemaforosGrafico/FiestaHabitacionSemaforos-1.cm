@@ -1,0 +1,115 @@
+#include "gdefs.cm"
+semaphore s1 = 1;
+semaphore s2 = 1;
+semaphore s3 = 0;
+semaphore s4 = 0;
+
+int estudiantesEnHabitacion = 0;
+int i = 1;
+int k;
+   const int tamy=80;
+   const int tamx=40;
+   int posx=25;
+   int posy=0;
+   int pos2x=25;
+   const int sumax=10;
+   const int y = 190;
+   const int L=10;
+void estudiante(int id){
+	wait(s1);
+	estudiantesEnHabitacion++;
+	cout << "El estudiante" << id << " entra a la Habitacion" << endl;
+                create(id,RECTANGLE,BLACK,posx,y,tamx/2,tamy);
+                create(2000+id,CIRCLE,BLACK,posx,y-20,tamx/2,tamy);
+                posx= posx + (tamx /2)+sumax;
+                 if((estudiantesEnHabitacion > L) ){
+                         changecolor(id,RED);
+                         changecolor(id+2000,RED);}
+	cout << "Habitacion: " << estudiantesEnHabitacion << " estudiantes" << endl << endl;
+	signal(s1);
+ 
+	wait(s3);
+	estudiantesEnHabitacion--;
+	cout << "El estudiante" << id << " sale de la habitacion" << endl;
+	cout << "Habitacion: " << estudiantesEnHabitacion << " estudiantes" << endl << endl;
+                           changecolor(id,WHITE);
+                           changecolor(id+2000,WHITE);
+	if((estudiantesEnHabitacion == 0) && (i == 0)){
+		signal(s4);
+	}
+	signal(s3);
+}
+
+void adminAlbergue(int id){
+      create(id,RECTANGLE,BLUE,pos2x,40,40,90);
+      create(id+100,CIRCLE,BLUE,pos2x,0,40,0);
+        pos2x=pos2x + 60;   
+	while(i){
+		wait(s1);
+
+           
+		if(estudiantesEnHabitacion == 0){
+			wait(s2);
+             create(id,RECTANGLE,GREEN,100,315,40,90);
+             create(id+100,CIRCLE,GREEN,100,275,40,0);
+			cout << "El administrador" << id << " realiza una busqueda en la habitacion"<< endl;
+             create(id,RECTANGLE,YELLOW,100,315,40,90);
+             create(id+100,CIRCLE,YELLOW,100,275,40,0);
+			cout << "El administrador" << id << " sale de la habitacion" << endl << endl;
+             changecolor(id,BLUE);
+             changecolor(id+100,BLUE);
+			signal(s2);
+			signal(s1);
+		}else if(estudiantesEnHabitacion > 10){
+			wait(s2);
+			signal(s3);
+                  create(id,RECTANGLE,GREEN,100,315,40,90);
+                  create(id+100,CIRCLE,GREEN,100,275,40,0);
+                  create(id,RECTANGLE,YELLOW,100,315,40,90);
+                  create(id+100,CIRCLE,YELLOW,100,275,40,0);
+			cout << "El administrador" << id << " termina la fiesta en la habitacion" << endl << endl;
+                  create(id,RECTANGLE,RED,100,315,40,90);
+                  create(id+100,CIRCLE,RED,100,275,40,0); 
+			i = 0;
+			wait(s4);
+			cout << "El administrador" << id << " sale de la habitacion" << endl << endl;
+                  changecolor(id,BLUE);
+                  changecolor(id+100,BLUE);
+			signal(s2);
+			exit(0);
+		}else{
+			signal(s1);
+		}
+	}
+	
+}
+
+void main(){
+     create(100,RECTANGLE,MAGENTA,0,145,600,15);
+     create(103,RECTANGLE,MAGENTA,0,145,15,480);   
+	cobegin{
+		adminAlbergue(1);
+                estudiante(1);
+		estudiante(2);
+		estudiante(3);
+		estudiante(4);
+		estudiante(5);
+		/*estudiante(6);
+		estudiante(7);
+		estudiante(8);
+		estudiante(9);
+		estudiante(10);
+		estudiante(11);
+		estudiante(12);
+		estudiante(13);
+		estudiante(14);
+		estudiante(15);
+		estudiante(16);
+		estudiante(17);
+		estudiante(18);
+		estudiante(19);
+		estudiante(20);  */    
+		
+		
+	}
+}

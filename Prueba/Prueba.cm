@@ -1,0 +1,17 @@
+int total = 0;
+
+void suma10(){
+	int i;
+	for(i = 1; i <= 10; i++){
+		cout << which_proc();
+		total = total + 1;
+	}
+}
+
+void main(){
+	cobegin{
+		suma10();
+		suma10();
+	}
+	cout << endl << "Suma = " << total << endl;
+}

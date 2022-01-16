@@ -1,0 +1,90 @@
+BACI System: C-- to PCODE Compiler, 12:29  18 Jul 2004
+Source file: E:\jBACI_Projects\FiestaHabitacionMonitores\FiestaHabitacionMonitores.cm  Mon May 25 03:44:36 2020
+ line  pc
+   1    0     monitor alberque{
+   2    0      int habitacion=0 ;
+   3    0     int ad;
+   4    0     int aux;
+   5    0     int adbo = 0;
+   6    0     int registro [30];  
+   7    0     const int A =1;
+   8    0     const int L =10;
+   9    0     condition entrarHab;
+  10    0  
+  11    0   void iniciar(){
+  12    1     adbo = 1;
+  13    4  }
+  14    6    
+  15    6   void revisarAD(){
+  16    7   if (habitacion == 0){
+  17   11               ad =ad+1;
+  18   16               cout << "el administrador entro ";
+  19   17               cout<< endl;
+  20   18               cout << "administrador buscando--nada ";
+  21   19               cout<< endl;
+  22   20               cout<<"el administrador salio";
+  23   21               cout<< endl;
+  24   22               ad=ad-1;
+  25   27               }
+  26   27  if (habitacion > L){
+  27   31                    ad =ad+1;
+  28   36                    cout << "el administrador entro --- contando ";
+  29   37                    cout<< endl;
+  30   38                    cout << "mas de " << L << " personas todos fuera";
+  31   42                    cout<< endl; 
+  32   43                    aux=habitacion;
+  33   46                    while(aux > 0){
+  34   50                             cout << "estudiante: " << registro[aux] << " salio de la habitacion";
+  35   57                             cout << endl;
+  36   58                             registro[aux] = 0;
+  37   63                             aux = aux-1;
+  38   68                             habitacion=habitacion-1;
+  39   73                             }
+  40   74                     cout << "el administrador salio";
+  41   75                     cout<< endl;
+  42   76                       }
+  43   76            
+  44   76  }
+  45   78  
+  46   78   void entrar(int ID){
+  47   79           if(ad == A){
+  48   83                  waitc(entrarHab);
+  49   86                        }
+  50   86              else{
+  51   87                  habitacion=habitacion+1;
+  52   92                  registro[habitacion]=ID;
+  53   97                  cout << " estudiante " << ID << " entro en la habitacion" ;
+  54  101                  cout << endl; 
+  55  102                  cout << " cantidad de personas: " << habitacion ;
+  56  105                  cout << endl;
+  57  106                  if((habitacion > L) && (adbo == 1)){
+  58  114                           revisarAD();           }
+  59  117                            }
+  60  117                signalc(entrarHab);
+  61  119                ad=ad-1;                      
+  62  124                        } 
+  63  126  
+  64  126   init{
+  65  132        ad = 0;
+  66  135        aux=0;
+  67  138        }
+  68  139  
+  69  139  }
+  70  139  void estudiante(int ID){
+  71  139       entrar(ID); 
+  72  143  
+  73  143  
+  74  143  }
+  75  144  void administrador(){
+  76  144        revisarAD();
+  77  147        iniciar();
+  78  150    
+  79  150  }
+  80  151  void main(){
+  81  152            cobegin{
+  82  153                   administrador();estudiante(1);estudiante(2);estudiante(3);estudiante(4);estudiante(5);
+  83  176                   estudiante(6);estudiante(7);estudiante(8);estudiante(9);
+  84  192                   estudiante(10);estudiante(11);estudiante(12);   
+  85  204                   }
+  86  205  
+  87  205  } 

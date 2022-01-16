@@ -1,0 +1,95 @@
+BACI System: C-- to PCODE Compiler, 12:29  18 Jul 2004
+Source file: E:\jBACI_Projects\FiestaHabitacionSemaforos2\FiestaHabitacionSemaforos.cm  Fri May 29 15:05:12 2020
+ line  pc
+   1    0  semaphore s1 = 1;
+   2    0  semaphore s2 = 1;
+   3    0  semaphore s3 = 0;
+   4    0  semaphore s4 = 0;
+   5    0  
+   6    0  int estudiantesEnHabitacion = 0;
+   7    0  int i = 1;
+   8    0  int k;
+   9    0  
+  10    0  void estudiante(int id){
+  11    0  	wait(s1);
+  12    2  	estudiantesEnHabitacion++;
+  13    7  	cout << "El estudiante" << id << " entra a la Habitacion" << endl;
+  14   12  	cout << "Habitacion: " << estudiantesEnHabitacion << " estudiantes" << endl << endl;
+  15   18  	signal(s1);
+  16   20  
+  17   20  	wait(s3);
+  18   22  	estudiantesEnHabitacion--;
+  19   27  	cout << "El estudiante" << id << " sale de la habitacion" << endl;
+  20   32  	cout << "Habitacion: " << estudiantesEnHabitacion << " estudiantes" << endl << endl;
+  21   38  	if((estudiantesEnHabitacion == 0) && (i == 0)){
+  22   46  		signal(s4);
+  23   48  	}
+  24   48  	signal(s3);
+  25   50  }
+  26   51  
+  27   51  void adminAlbergue(int id){
+  28   51  	while(i){
+  29   53  		wait(s1);
+  30   55  		if(estudiantesEnHabitacion == 0){
+  31   59  			wait(s2);
+  32   61  			cout << "El administrador" << id << " realiza una busqueda en la habitacion"<< endl;
+  33   66  			cout << "El administrador" << id << " sale de la habitacion" << endl << endl;
+  34   72  			signal(s2);
+  35   74  			signal(s1);
+  36   76  		}else if(estudiantesEnHabitacion > 10){
+  37   81  			wait(s2);
+  38   83  			signal(s3);
+  39   85  			cout << "El administrador" << id << " termina la fiesta en la habitacion" << endl << endl;
+  40   91  			i = 0;
+  41   94  			wait(s4);
+  42   96  			cout << "El administrador" << id << " sale de la habitacion" << endl << endl;
+  43  102  			signal(s2);
+  44  104  			exit(0);
+  45  105  		}else{
+  46  106  			signal(s1);
+  47  108  		}
+  48  108  	}
+  49  109  	
+  50  109  }
+  51  110  
+  52  110  void main(){
+  53  111  	cobegin{
+  54  112  		adminAlbergue(1);
+  55  116  		estudiante(1);
+  56  120  		estudiante(2);
+  57  124  		estudiante(3);
+  58  128  		estudiante(4);
+  59  132  		estudiante(5);
+  60  136  		estudiante(6);
+  61  140  		estudiante(7);
+  62  144  		estudiante(8);
+  63  148  		estudiante(9);
+  64  152  		estudiante(10);
+  65  156  		estudiante(11);
+  66  160  		estudiante(12);
+  67  164  		estudiante(13);
+  68  168  		estudiante(14);
+  69  172  		/*estudiante(15);
+  70  172  		estudiante(16);
+  71  172  		estudiante(17);
+  72  172  		estudiante(18);
+  73  172  		estudiante(19);
+  74  172  		estudiante(20);
+  75  172  		estudiante(21);
+  76  172  		estudiante(22);
+  77  172  		estudiante(23);
+  78  172  		estudiante(24);
+  79  172  		estudiante(25);
+  80  172  		estudiante(26);
+  81  172  		estudiante(27);
+  82  172  		estudiante(28);
+  83  172  		estudiante(29);
+  84  172  		estudiante(30);
+  85  172  		estudiante(31);
+  86  172  		estudiante(32);
+  87  172  		estudiante(33);
+  88  172  		estudiante(34);
+  89  172  		estudiante(35);
+  90  172  		estudiante(36);*/
+  91  172  	}
+  92  173  }

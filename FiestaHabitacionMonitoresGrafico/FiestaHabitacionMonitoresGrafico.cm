@@ -1,0 +1,125 @@
+#include "gdefs.cm"
+   monitor alberque{
+    int habitacion=0 ;
+   int ad;
+   int aux;
+   int adbo = 0;
+   int registro [30];  
+   const int A =1;
+   const int L =5;
+   condition entrarHab;
+   const int tamy=80;
+   const int tamx=40;
+   int posx=25;
+   int posy=0;
+   const int sumax=10;
+   const int y = 190;
+ void iniciar(){
+   adbo = 1;
+}
+  
+ void revisarAD(){
+ if (habitacion == 0){
+             ad =ad+1;
+             cout << "el administrador entro ";
+             cout<< endl;
+             create(0,RECTANGLE,GREEN,100,315,40,90);
+             create(1000,CIRCLE,GREEN,100,275,40,0);
+             cout << "administrador buscando--nada ";
+             create(0,RECTANGLE,YELLOW,100,315,40,90);
+             create(1000,CIRCLE,YELLOW,100,275,40,0);
+             cout<<"el administrador salio";
+             cout<< endl;
+             changecolor(0,BLUE);
+             changecolor(1000,BLUE);
+             ad=ad-1;
+             }
+if (habitacion > L){
+                  ad =ad+1;
+                  create(0,RECTANGLE,GREEN,100,315,40,90);
+                  create(1000,CIRCLE,GREEN,100,275,40,0);
+                  cout << "el administrador entro --- contando ";
+                  cout<< endl;
+                  create(0,RECTANGLE,YELLOW,100,315,40,90);
+                  create(1000,CIRCLE,YELLOW,100,275,40,0);
+                  cout << "mas de " << L << " personas todos fuera";
+                  cout<< endl;
+                  create(0,RECTANGLE,RED,100,315,40,90);
+                  create(1000,CIRCLE,RED,100,275,40,0); 
+                  aux=habitacion;
+                  while(aux >= 0){
+                           cout << "estudiante: " << registro[aux] << " salio de la habitacion";
+                           cout << endl;
+                           changecolor(registro[aux],WHITE);
+                           changecolor(registro[aux]+1000,WHITE);
+                           registro[aux] = 0;
+                           aux = aux-1;
+                           }
+                   habitacion = 0;
+                   posx=25;
+                   cout << "el administrador salio";
+                  changecolor(0,BLUE);
+                  changecolor(1000,BLUE);
+                   cout<< endl;
+                   
+                     }
+          
+}
+
+ void entrar(int ID){
+         if(ad == A){
+                waitc(entrarHab);
+                      }
+            else{
+                habitacion=habitacion+1;
+                registro[habitacion]=ID;
+                cout << " estudiante " << ID << " entro en la habitacion" ;
+                create(ID,RECTANGLE,BLACK,posx,y,tamx/2,tamy);
+                create(1000+ID,CIRCLE,BLACK,posx,y-20,tamx/2,tamy);
+                posx= posx + (tamx /2)+sumax;
+                cout << endl; 
+                cout << " cantidad de personas: " << habitacion ;
+                cout << endl;
+                if((habitacion > L) ){
+                         changecolor(ID,RED);
+                         changecolor(ID+1000,RED);
+                      if (adbo == 1){
+                         aux=random(5);
+                         if(aux==3){                         
+                         revisarAD();}
+                                    }           }
+                          }
+              signalc(entrarHab);
+              ad=ad-1;                      
+                      } 
+
+ init{
+      ad = 0;
+      aux=0;
+      }
+
+}
+void estudiante(int ID){
+     entrar(ID); 
+
+
+}
+void administrador(){
+      iniciar();
+      create(0,RECTANGLE,BLUE,25,40,40,90);
+      create(1000,CIRCLE,BLUE,25,0,40,0);
+      revisarAD();
+      
+  
+}
+void main(){
+     create(100,RECTANGLE,MAGENTA,0,145,600,15);
+     create(101,RECTANGLE,MAGENTA,585,145,15,480); 
+        create(103,RECTANGLE,MAGENTA,0,145,15,480);               
+          cobegin{
+                 administrador();estudiante(1);estudiante(2);estudiante(3);estudiante(4);estudiante(5);
+                 estudiante(6);estudiante(7);estudiante(8);estudiante(9);
+                 estudiante(10);estudiante(11);estudiante(12);   
+                 }
+
+} 
